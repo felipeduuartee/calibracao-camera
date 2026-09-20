@@ -1,7 +1,12 @@
 #include "calibracao.hpp"
 
+#include <cmath>
 #include <filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
 #include <limits>
+#include <sstream>
 #include <stdexcept>
 
 #include <opencv2/calib3d.hpp>
@@ -358,5 +363,303 @@ void salvaResultados(
             comparacao
         )) {
         throw std::runtime_error("Nao foi possivel salvar a comparacao.");
+    }
+}
+
+void salvaExperimentoProjecao(
+    const ResultadoCalibracao& resultado,
+    const std::vector<VistaCalibracao>& vistas,
+    const std::string& diretorioSaida
+)
+{
+    if (vistas.size() < 10)
+        throw std::runtime_error(
+            "Nao ha vistas suficientes para o experimento de projecao."
+        );
+
+    if (resultado.vetoresRotacao.size() != vistas.size() ||
+        resultado.vetoresTranslacao.size() != vistas.size()) {
+        throw std::runtime_error(
+            "Parametros extrinsecos incompativeis com as vistas."
+        );
+    }
+
+    // Imagens 01, 06 e 10 no conjunto ordenado de 12 imagens.
+    const std::vector<std::size_t> indicesVistas = {
+        0,
+        5,
+        9
+    };
+
+    fs::path saida =
+        fs::path(diretorioSaida) / "projecao_3d_2d";
+
+    fs::create_directories(saida);
+
+    std::ofstream arquivoCsv(
+        (saida / "projecoes.csv").string()
+    );
+
+    std::ofstream arquivoResumo(
+        (saida / "resumo.txt").string()
+    );
+
+    if (!arquivoCsv.is_open() || !arquivoResumo.is_open()) {
+        throw std::runtime_error(
+            "Nao foi possivel criar os arquivos do experimento de projecao."
+        );
+    }
+
+    arquivoCsv
+        << "imagem,"
+        << "indice_ponto,"
+        << "X_mm,Y_mm,Z_mm,"
+        << "u_detectado_px,v_detectado_px,"
+        << "u_projetado_px,v_projetado_px,"
+        << "erro_px\n";
+
+    arquivoCsv
+        << std::fixed
+        << std::setprecision(6);
+
+    arquivoResumo
+        << std::fixed
+        << std::setprecision(6);
+
+    arquivoResumo
+        << "Experimento de projecao 3D -> 2D\n"
+        << "Pontos: 49 cantos internos do tabuleiro por imagem\n"
+        << "Vistas: imagem_01, imagem_06 e imagem_10\n\n";
+
+    std::vector<cv::Mat> miniaturas;
+
+    double somaQuadradosGlobal = 0.0;
+    std::size_t quantidadeGlobal = 0;
+
+    for (std::size_t indiceVista : indicesVistas) {
+        const VistaCalibracao& vista = vistas[indiceVista];
+
+        std::vector<cv::Point2f> pontosProjetados;
+
+        cv::projectPoints(
+            vista.pontosObjeto,
+            resultado.vetoresRotacao[indiceVista],
+            resultado.vetoresTranslacao[indiceVista],
+            resultado.matrizCamera,
+            resultado.coeficientesDistorcao,
+            pontosProjetados
+        );
+
+        if (pontosProjetados.size() != vista.cantosImagem.size()) {
+            throw std::runtime_error(
+                "Quantidade de pontos projetados incompativel."
+            );
+        }
+
+        cv::Mat visualizacao = vista.imagem.clone();
+
+        double somaQuadradosVista = 0.0;
+
+        for (std::size_t i = 0; i < pontosProjetados.size(); ++i) {
+            const cv::Point3f& ponto3d =
+                vista.pontosObjeto[i];
+
+            const cv::Point2f& detectado =
+                vista.cantosImagem[i];
+
+            const cv::Point2f& projetado =
+                pontosProjetados[i];
+
+            double dx =
+                static_cast<double>(projetado.x) -
+                static_cast<double>(detectado.x);
+
+            double dy =
+                static_cast<double>(projetado.y) -
+                static_cast<double>(detectado.y);
+
+            double erro =
+                std::sqrt(dx * dx + dy * dy);
+
+            somaQuadradosVista += erro * erro;
+            somaQuadradosGlobal += erro * erro;
+            ++quantidadeGlobal;
+
+            arquivoCsv
+                << vista.nomeArquivo << ','
+                << i << ','
+                << ponto3d.x << ','
+                << ponto3d.y << ','
+                << ponto3d.z << ','
+                << detectado.x << ','
+                << detectado.y << ','
+                << projetado.x << ','
+                << projetado.y << ','
+                << erro
+                << '\n';
+
+            cv::Point pontoDetectado(
+                cvRound(detectado.x),
+                cvRound(detectado.y)
+            );
+
+            cv::Point pontoProjetado(
+                cvRound(projetado.x),
+                cvRound(projetado.y)
+            );
+
+            // Verde: posição observada pelo detector de cantos.
+            cv::circle(
+                visualizacao,
+                pontoDetectado,
+                6,
+                cv::Scalar(0, 255, 0),
+                2,
+                cv::LINE_AA
+            );
+
+            // Vermelho: posição calculada por projectPoints().
+            cv::drawMarker(
+                visualizacao,
+                pontoProjetado,
+                cv::Scalar(0, 0, 255),
+                cv::MARKER_CROSS,
+                14,
+                2,
+                cv::LINE_AA
+            );
+        }
+
+        double rmsVista = std::sqrt(
+            somaQuadradosVista /
+            static_cast<double>(pontosProjetados.size())
+        );
+
+        std::ostringstream textoRms;
+        textoRms
+            << std::fixed
+            << std::setprecision(4)
+            << "RMS = "
+            << rmsVista
+            << " px";
+
+        cv::putText(
+            visualizacao,
+            vista.nomeArquivo,
+            cv::Point(20, 42),
+            cv::FONT_HERSHEY_SIMPLEX,
+            1.0,
+            cv::Scalar(0, 255, 255),
+            3,
+            cv::LINE_AA
+        );
+
+        cv::putText(
+            visualizacao,
+            textoRms.str(),
+            cv::Point(20, 82),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.9,
+            cv::Scalar(0, 255, 255),
+            2,
+            cv::LINE_AA
+        );
+
+        cv::putText(
+            visualizacao,
+            "circulo verde: detectado",
+            cv::Point(20, 122),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.7,
+            cv::Scalar(0, 255, 0),
+            2,
+            cv::LINE_AA
+        );
+
+        cv::putText(
+            visualizacao,
+            "cruz vermelha: projetado",
+            cv::Point(20, 157),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.7,
+            cv::Scalar(0, 0, 255),
+            2,
+            cv::LINE_AA
+        );
+
+        fs::path nomeSaida =
+            saida /
+            (
+                fs::path(vista.nomeArquivo).stem().string()
+                + "_projecao.jpg"
+            );
+
+        if (!cv::imwrite(nomeSaida.string(), visualizacao)) {
+            throw std::runtime_error(
+                "Nao foi possivel salvar uma imagem de projecao."
+            );
+        }
+
+        cv::Mat miniatura;
+
+        cv::resize(
+            visualizacao,
+            miniatura,
+            cv::Size(384, 512)
+        );
+
+        miniaturas.push_back(miniatura);
+
+        arquivoResumo
+            << vista.nomeArquivo
+            << ": RMS recalculado = "
+            << rmsVista
+            << " px; RMS OpenCV = "
+            << resultado.errosPorImagem[indiceVista]
+            << " px\n";
+
+        std::cout
+            << "[projecao] "
+            << vista.nomeArquivo
+            << ": RMS = "
+            << std::fixed
+            << std::setprecision(6)
+            << rmsVista
+            << " pixel\n";
+    }
+
+    double rmsGlobal = std::sqrt(
+        somaQuadradosGlobal /
+        static_cast<double>(quantidadeGlobal)
+    );
+
+    arquivoResumo
+        << "\nRMS conjunto das tres vistas = "
+        << rmsGlobal
+        << " px\n";
+
+    std::cout
+        << "[projecao] RMS das tres vistas = "
+        << std::fixed
+        << std::setprecision(6)
+        << rmsGlobal
+        << " pixel\n";
+
+    if (!miniaturas.empty()) {
+        cv::Mat prancha;
+
+        cv::hconcat(
+            miniaturas,
+            prancha
+        );
+
+        if (!cv::imwrite(
+                (saida / "prancha_projecoes.jpg").string(),
+                prancha
+            )) {
+            throw std::runtime_error(
+                "Nao foi possivel salvar a prancha de projecoes."
+            );
+        }
     }
 }

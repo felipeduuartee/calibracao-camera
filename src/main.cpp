@@ -116,6 +116,7 @@ int main(int argc, char** argv)
 
         ResultadoCalibracao resultado = calibraCamera(vistas);
         salvaResultados(resultado, vistas, saida.string());
+        salvaExperimentoProjecao(resultado, vistas, saida.string());
 
         std::cout << std::fixed << std::setprecision(6);
         std::cout << "\nErro RMS: " << resultado.erroRms << " pixel\n";

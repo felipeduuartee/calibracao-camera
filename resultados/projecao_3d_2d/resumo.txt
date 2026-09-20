@@ -1,0 +1,9 @@
+Experimento de projecao 3D -> 2D
+Pontos: 49 cantos internos do tabuleiro por imagem
+Vistas: imagem_01, imagem_06 e imagem_10
+
+imagem_01.jpg: RMS recalculado = 0.493812 px; RMS OpenCV = 0.493811 px
+imagem_06.jpg: RMS recalculado = 0.419380 px; RMS OpenCV = 0.419382 px
+imagem_10.jpg: RMS recalculado = 0.252759 px; RMS OpenCV = 0.252759 px
+
+RMS conjunto das tres vistas = 0.401504 px

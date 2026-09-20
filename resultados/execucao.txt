@@ -1,0 +1,32 @@
+imagem_01.jpg: 49 cantos detectados
+imagem_02.jpg: 49 cantos detectados
+imagem_03.jpg: 49 cantos detectados
+imagem_04.jpg: 49 cantos detectados
+imagem_05.jpg: 49 cantos detectados
+imagem_06.jpg: 49 cantos detectados
+imagem_07.jpg: 49 cantos detectados
+imagem_08.jpg: 49 cantos detectados
+imagem_09.jpg: 49 cantos detectados
+imagem_10.jpg: 49 cantos detectados
+imagem_11.jpg: 49 cantos detectados
+imagem_12.jpg: 49 cantos detectados
+[projecao] imagem_01.jpg: RMS = 0.493812 pixel
+[projecao] imagem_06.jpg: RMS = 0.419380 pixel
+[projecao] imagem_10.jpg: RMS = 0.252759 pixel
+[projecao] RMS das tres vistas = 0.401504 pixel
+
+Erro RMS: 0.428693 pixel
+
+Matriz da camera:
+[1048.822306567084, 0, 570.2663889793744;
+ 0, 1064.592255159305, 782.9959816324721;
+ 0, 0, 1]
+
+Coeficientes de distorcao:
+[0.1042618070707779;
+ -0.2829802256611346;
+ 0.003526516600318627;
+ -0.0092696135697246;
+ 0.2289126772795019]
+
+Resultados gravados em resultados

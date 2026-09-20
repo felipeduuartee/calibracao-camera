@@ -49,3 +49,29 @@ Coeficientes de distorção na ordem `[k1, k2, p1, p2, k3]`:
 - `resultados/deteccoes/`: cantos internos detectados nas 12 imagens
 - `resultados/prancha_deteccoes.jpg`: visão conjunta das 12 detecções
 - `resultados/comparacao_distorcao.jpg`: comparação visual antes e depois da correção
+
+## Experimento de projeção 3D para 2D
+
+Além da calibração e da remoção de distorção, o programa realiza um
+experimento de reprojeção nas imagens 01, 06 e 10.
+
+Para cada uma dessas vistas, os 49 cantos internos possuem coordenadas
+3D conhecidas no sistema de coordenadas do tabuleiro, com `Z = 0`.
+Esses pontos são projetados para o plano da imagem com `cv::projectPoints`,
+utilizando a matriz intrínseca, os coeficientes de distorção e os parâmetros
+extrínsecos obtidos pela calibração.
+
+As coordenadas projetadas são comparadas com as coordenadas dos cantos
+detectados na imagem. O programa grava:
+
+- `resultados/projecao_3d_2d/projecoes.csv`: coordenadas 3D, posições
+  detectadas, posições projetadas e erro de cada ponto;
+- `resultados/projecao_3d_2d/resumo.txt`: erro RMS das três vistas;
+- `resultados/projecao_3d_2d/imagem_01_projecao.jpg`;
+- `resultados/projecao_3d_2d/imagem_06_projecao.jpg`;
+- `resultados/projecao_3d_2d/imagem_10_projecao.jpg`;
+- `resultados/projecao_3d_2d/prancha_projecoes.jpg`.
+
+Nas imagens de verificação, os círculos verdes representam os cantos
+detectados e as cruzes vermelhas representam as posições calculadas pela
+projeção 3D para 2D.

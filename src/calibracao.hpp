@@ -45,3 +45,9 @@ void salvaResultados(
     const std::vector<VistaCalibracao>& vistas,
     const std::string& diretorioSaida
 );
+
+void salvaExperimentoProjecao(
+    const ResultadoCalibracao& resultado,
+    const std::vector<VistaCalibracao>& vistas,
+    const std::string& diretorioSaida
+);
