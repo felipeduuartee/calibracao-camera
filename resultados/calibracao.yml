@@ -1,0 +1,221 @@
+%YAML:1.0
+---
+largura_imagem: 1152
+altura_imagem: 1536
+cantos_internos:
+   - 7
+   - 7
+area_quadriculada_mm:
+   - 150.
+   - 205.
+dimensoes_casa_mm:
+   - 1.8750000000000000e+01
+   - 2.5625000000000000e+01
+erro_rms_pixels: 4.2868990788488925e-01
+matriz_camera: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 1.0488226079830549e+03, 0., 5.7026624742262459e+02, 0.,
+       1.0645935030385083e+03, 7.8299693383371118e+02, 0., 0., 1. ]
+coeficientes_distorcao: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 1.0426095604509603e-01, -2.8297763966192552e-01,
+       3.5265443954028098e-03, -9.2696694683140641e-03,
+       2.2891076027567850e-01 ]
+ordem_coeficientes: "k1, k2, p1, p2, k3"
+vistas:
+   -
+      arquivo: "imagem_01.jpg"
+      eixo_longo_em_x: 1
+      erro_reprojecao_pixels: 4.9381647466301098e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -4.4504777388520872e-01, 4.9951943477765803e-01,
+             1.4932960656035226e+00 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 5.0920556859276608e+01, -5.8429675004499870e+01,
+             3.5296718791667479e+02 ]
+   -
+      arquivo: "imagem_02.jpg"
+      eixo_longo_em_x: 0
+      erro_reprojecao_pixels: 4.9750909138366839e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -7.1637656862524279e-01, -1.7911754996456346e-02,
+             -1.8937401677325858e-02 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -6.2001149344184256e+01, -7.8408786163361000e+01,
+             3.2130479325977109e+02 ]
+   -
+      arquivo: "imagem_03.jpg"
+      eixo_longo_em_x: 1
+      erro_reprojecao_pixels: 4.5476274915293768e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -4.6618733178909932e-01, -1.0835004310914089e+00,
+             -2.1170978246974181e+00 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 5.3075003249770623e+00, 1.8001723254821854e+01,
+             2.3864617154507661e+02 ]
+   -
+      arquivo: "imagem_04.jpg"
+      eixo_longo_em_x: 1
+      erro_reprojecao_pixels: 5.6535853069787823e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -4.8832875516938951e-01, 1.0064219517278250e+00,
+             2.0002320496326003e+00 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 1.0208887230301725e+02, -3.0804779034069604e+01,
+             3.0882796680470938e+02 ]
+   -
+      arquivo: "imagem_05.jpg"
+      eixo_longo_em_x: 0
+      erro_reprojecao_pixels: 5.2681051550783620e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -7.3083636247547701e-01, 7.2691390439434157e-03,
+             1.0078852298678620e-03 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -5.5393926410134526e+01, -1.0177889002147077e+02,
+             3.6345777215350506e+02 ]
+   -
+      arquivo: "imagem_06.jpg"
+      eixo_longo_em_x: 1
+      erro_reprojecao_pixels: 4.1938587675014755e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -7.0416736083109155e-01, 1.1262470233164246e+00,
+             1.9039386622678378e+00 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 8.5000059032906009e+01, 1.5760804989194012e+01,
+             3.6487478291043698e+02 ]
+   -
+      arquivo: "imagem_07.jpg"
+      eixo_longo_em_x: 0
+      erro_reprojecao_pixels: 3.7930939962404808e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -3.7870406462968725e-01, -5.7809349726104242e-03,
+             -3.9246355426537316e-02 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -1.7297082599150573e+02, -2.8869464727445506e+02,
+             4.4032740647633449e+02 ]
+   -
+      arquivo: "imagem_08.jpg"
+      eixo_longo_em_x: 1
+      erro_reprojecao_pixels: 4.0118009748910877e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -7.2068698500629969e-01, 6.7464210046129269e-01,
+             1.3965510508873196e+00 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -2.3277406952245517e+01, 3.7859617115673800e+01,
+             4.6351740315356983e+02 ]
+   -
+      arquivo: "imagem_09.jpg"
+      eixo_longo_em_x: 0
+      erro_reprojecao_pixels: 3.8667313298708877e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -9.6853834848547193e-01, 2.2598855923398716e-02,
+             4.6396142186404685e-02 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 3.3341059638976922e+01, 3.1406620108619318e+01,
+             4.6080757397587018e+02 ]
+   -
+      arquivo: "imagem_10.jpg"
+      eixo_longo_em_x: 1
+      erro_reprojecao_pixels: 2.5275926057310782e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -4.2282901721952343e-01, 4.7823017071261392e-01,
+             1.4214297635315361e+00 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -9.3161019388187569e+01, -1.7892421873189824e+02,
+             5.2177907966290877e+02 ]
+   -
+      arquivo: "imagem_11.jpg"
+      eixo_longo_em_x: 0
+      erro_reprojecao_pixels: 3.2556365306292634e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -9.4195098227022123e-01, -1.2513412113711125e-01,
+             -9.5091667922172843e-02 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 4.9244299719360306e+01, -8.3283246566541408e+01,
+             5.3577171394075708e+02 ]
+   -
+      arquivo: "imagem_12.jpg"
+      eixo_longo_em_x: 0
+      erro_reprojecao_pixels: 3.3145292373640084e-01
+      vetor_rotacao: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ -5.5755769994756299e-01, -9.2977940356702940e-02,
+             -1.2371453352162587e-01 ]
+      vetor_translacao_mm: !!opencv-matrix
+         rows: 3
+         cols: 1
+         dt: d
+         data: [ 3.5461877631908976e+01, -2.4774022030776271e+02,
+             4.3106587951188840e+02 ]
